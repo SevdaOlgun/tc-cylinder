@@ -1,0 +1,67 @@
+
+
+
+tc-cylinder is a C language based open source program which calculate high-accurate terrain corrections. It also provides to calculate complete Bouguer reductions with spherical form. 
+
+The user can specify arbitrary DEM resolutions, the inner region radius, the interpolation region and segmentation tyepe properties. However, the usage pattern highlighted in Example 1 is recommended thanks to its high speed, efficiency, and accuracy.
+
+GMT 6.0.0 (General Mapping Tools) must be installed due to the use of its some tools. GMT's library should be used when compiling (an example of compiling: icc -o tc-cylinder tc-cylinder.c tcc.c -lm -I/usr/include/gmt/ -L/pub/opt/gmt/lib/ -lgmt)
+
+Required Inputs and Arguments
+-----------------------------
+calculation points
+tc-cylinder reads calculation points (longtitude, latitude, height) from standard input. 
+
+-G
+gridfile this argument refer to outer or whole computation area heighs. If -I argument (inner grid) also used -Ggridfile will be used for only outer zones by tc-cylinder. Any resolution can be chosen as a preference.
+
+Optional Inputs and Arguments
+-----------------------------
+
+-I
+Specifies the name of the Digital Elevation Model (DEM) used for the interior zone. The format should be 2D NetCDF. Any resolution can be chosen as a preference, however it should be more precise than the model used with the -G variable. The boundaries of this file must be the same as the model corresponding to the outer region specified by -G.
+
+-Z
+The user defines the zone within which the distinction between inner and outer zones will be formed using this argument. The default value is 56, which corresponds to a distance of 5000 meters from the computation point.
+
+-r
+The resolution at which the interpolation region should be applied can be determined. s is the unit for seconds, m is the unit for minutes, and degrees should be written without a unit. 0.5s is the default value.
+
+-p
+It is possible to specify the zone up to which the interpolation will be applied. By default, the value is 3.
+
+-T
+This argument specifies the format of the partitions. By default, tc-cylinder uses its own detailed partitioning template with S. It is also used with R, H, and N for the traditional stencils Hayford Bowie, Hammer, and Niethammer, respectively.
+
+-h
+help
+
+Output File
+------------------------------
+The following are the outputs and their units in column order:
+
+Longtitude[degree], Latitude[degree], Height[m], Bouguer Plate Correction[mGal], Spherical Correction[mGal], Terrain Correction[mGal], Complete Bouguer Correction [mGal]
+
+
+Examples and Test Data Usage
+-------------------------------
+Example 1
+If 1 arc second resolution is desired in the inner region and 15 arc second resolution in the outer when calculating the correction values for the calculation points on a profile in the Everest region, the following form can be used. Up to zone 56 is considered the inner zone. The interpolation region is preferred up to the third zone at a resolution of 0.5 second. The partitioning template is based on the tc-cylinder template.
+
+./tc-cylinder pois.lfH -GDEM15s.grd -IDEM1s.grd -TS -Z56 -p3 -r0.5s
+
+
+Example 2
+In contrast to Example 1, if a resolution of 1 arc second is preferred for the entire region;
+
+./tc-cylinder pois.lfH -GDEM1s.grd -TS -Z56 -p3 -r0.5s 
+
+Example 3
+If 3 arc second resolution is desired in the inner region and 15 arc second resolution in the outer when calculating the correction values for the calculation points on a profile in the Everest region, the following form can be used. Up to zone 70 is considered the inner zone. The interpolation region is preferred up to the 10th zone at a resolution of 1 arc second. The partitioning template is based on the tc-cylinder template.
+
+./tc_cylinder testpois.lfH -GtestDEM15s.grd -ItestDEM3s.grd -TS -Z70 -p10 -r1s
+
+Test Data Usage
+If 15 arc second resolution DEM is desired for whole area includes a profile in the Everest region, the following form may be used for test. The interpolation region is preferred up to the 20th zone at a resolution of 0.5 arc second. The partitioning template is based on the tc-cylinder template.
+
+./tc_cylinder testpois.lfH -GtestDEM15s.grd -TS -p20 -r0.5s > testoutput.txt \n");
