@@ -1,4 +1,4 @@
-# tc-cylinder: An optimized algorithm for accurate topograpyh effect correction from high-resolution topography models
+# tc-cylinder: An optimized algorithm for accurate topography effect correction from high-resolution topography models
 
 ### Authors: Sevda Olgun (sevda.olgun@kocaeli.edu.tr), Aydin Ustun, Orhan Akyilmaz 
 
