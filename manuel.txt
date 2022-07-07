@@ -5,7 +5,16 @@ tc-cylinder is a C language based open source program which calculate high-accur
 
 The user can specify arbitrary DEM resolutions, the inner region radius, the interpolation region and segmentation tyepe properties. However, the usage pattern highlighted in Example 1 is recommended thanks to its high speed, efficiency, and accuracy.
 
-GMT 6.0.0 (General Mapping Tools) must be installed due to the use of its some tools. GMT's library should be used when compiling (an example of compiling: icc -o tc-cylinder tc-cylinder.c tcc.c -lm -I/usr/include/gmt/ -L/pub/opt/gmt/lib/ -lgmt)
+GMT 6.0.0 (General Mapping Tools) must be installed due to the use of its some tools. GMT's library should be used when compiling.
+
+Examples of compiling:
+
+Temporal Stores
+icc -o tc-cylinder tc-cylinder.c tcc.c -lm -I/usr/include/gmt/ -L/pub/opt/gmt/lib/ -lgmt
+
+Non-Temporal Stores
+icc -qopt-streaming-stores=always -o tc-cylinder tc-cylinder.c tcc.c -lm -I/usr/include/gmt/ -L/pub/opt/gmt/lib/ -lgmt
+
 
 Required Inputs and Arguments
 -----------------------------
