@@ -478,6 +478,7 @@ void help()
 	fprintf(stderr,"tc-cylinder is a C language based open source program which calculate \n");
 	fprintf(stderr,"high-accurate terrain corrections. It also provides complete Bouguer reductions \n");
 	fprintf(stderr,"with spherical form.\n\n");
+	fprintf(stderr,"The algorithm is compatible with DEM input data in both the NetCDF and GeoTIFF formats.\n");
 	fprintf(stderr,"The user can specify arbitrary DEM resolutions, the inner region radius,\n");
 	fprintf(stderr,"the interpolation region and segmentation type properties. However,\n");
 	fprintf(stderr,"the usage pattern highlighted in Example 1 is recommended thanks to \n");
