@@ -19,7 +19,6 @@
 #include<math.h>
 #include<stdlib.h>
 #include"tcc.h"
-#include<omp.h>
 int readgrd(Grid2D *g,char *name,double w,double e,double s,double n,double dx,double dy)
 {
     /* Open grid file in binary for reading */
@@ -420,7 +419,7 @@ void tcfromTmpl(CylinderTmpl *T,double hgt,int v)
         int ka=1; //coefficient of negatif or pozitif tc
         /* attraction of compartments */
         T->ba=-0.1119*hgt;
-        T->bb=1.464139*pow(10,-3)*hgt-3.533047*pow(10,-7)*pow(hgt,2)+1.002709*pow(10,-13)*pow(hgt,3)+3.002407*pow(10,-18)*pow(hgt,4);
+        T->bb=-1.464139*pow(10,-3)*hgt-3.533047*pow(10,-7)*pow(hgt,2)+1.002709*pow(10,-13)*pow(hgt,3)+3.002407*pow(10,-18)*pow(hgt,4);
             
             for(k=0;k<T->zN-1;k++)
             {
