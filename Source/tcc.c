@@ -1,5 +1,5 @@
-/*  tc-cylinder: high-accurate terrain corrections
- *
+/*  tc-cylinder : high-accurate terrain corrections 
+ *  corrected: 18.02.2023 
  *  Copyright (C) 2022 S. Olgun and A. Ustun
 
  *  This program is free software: you can redistribute it and/or modify
@@ -416,6 +416,7 @@ void tcfromTmpl(CylinderTmpl *T,double hgt,int v)
         double DH =.0; /* height difference between mean compartment and comp. point heights */
         double dg =.0; /* attraction of compartment  */
         double Pn=.0; //
+	double dg2=0.0;
         int ka=1; //coefficient of negatif or pozitif tc
         /* attraction of compartments */
         T->ba=-0.1119*hgt;
@@ -431,28 +432,31 @@ void tcfromTmpl(CylinderTmpl *T,double hgt,int v)
                  
              for(l=0;l<SN;l++)
              {
-                 
-                 if(T->compN[i]!=0)
-                 {
-                     tSN++;
-                     DH = T->mean[i]-hgt;
-                     T->rms+=DH*DH;
-                     Pn = sqrt(pow((6371000+hgt),2)+mR*mR)-6371000;
-                     if(T->mean[i] > Pn)
-                         DH=-2*Pn+hgt+T->mean[i];
-                     else if (Pn > T->mean[i] > hgt)
-                         ka=-1;
-                     else
-                         ka=1;
-                     dg=ka*fabs(0.1119*((a2-a1)-sqrt((a2*a2)+DH*DH)+sqrt((a1*a1)+DH*DH))/SN);
-                     
-                     if(T->mean[i] < 0)    
-                     dg=-1*fabs(0.0687*(sqrt(a1*a1+T->mean[i]*T->mean[i])-sqrt(a2*a2+T->mean[i]*T->mean[i])-sqrt(a1*a1+hgt*hgt)+sqrt(a2*a2+hgt*hgt))/SN);
-                     
-                     T->tc+=dg;
-                 }
-
-                  i++;
+		     if(T->compN[i]!=0)
+		     {
+			     tSN++;
+                     	     DH = T->mean[i]-hgt;
+                             T->rms+=DH*DH;
+                             dg2=0.0;
+			     if(T->mean[i]>=0)
+			     {
+				     Pn = sqrt(pow((6371000.0+hgt),2)+mR*mR)-6371000.0;
+				     if(T->mean[i] > Pn)
+					     DH=-2*Pn+hgt+T->mean[i];
+				     else if (Pn > T->mean[i] > hgt)
+					     ka=-1;
+				     else
+					     ka=1;
+				     dg=ka*fabs(0.1119*((a2-a1)-sqrt((a2*a2)+DH*DH)+sqrt((a1*a1)+DH*DH))/SN);
+			     }
+			     else
+			     {
+				     dg2=0.1119*((a2-a1)-sqrt((a2*a2)+hgt*hgt)+sqrt((a1*a1)+hgt*hgt))/SN;
+				     dg=fabs(0.0687*(sqrt(a1*a1+DH*DH)-sqrt(a2*a2+DH*DH)-sqrt(a1*a1+hgt*hgt)+sqrt(a2*a2+hgt*hgt))/SN);
+			     }
+			     T->tc+=dg+dg2;
+		     }
+		     i++;
              }
          }
          T->rms=sqrt(T->rms/tSN);
